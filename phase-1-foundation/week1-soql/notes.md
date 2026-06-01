@@ -37,3 +37,23 @@ SELECT field1, field2 FROM ObjectName WHERE condition ORDER BY field LIMIT n
 3. What is the difference between child-to-parent and parent-to-child queries?
 4. Why should you never write SOQL inside a for loop?
 5. What is AggregateResult and how do you use it?
+
+
+## My Explanation - Day 2
+
+### Why we use a Map instead of looping through a list
+
+The problem we are trying to solve is finding which contacts belong 
+to which account efficiently. When we have 200 accounts and 2,000 contacts, looping through the entire contacts list for each account means 400,000 comparisons. That number grows even worse as data increases .
+
+Think of it like an address book. Looping = reading every page each 
+time someone asks for a number. A Map = opening directly to the right 
+page. One lookup, instant result.
+
+In Salesforce, the Map key is the Account ID and the value is the 
+List of related Contacts. contactsByAccount.get(acc.Id) gives us the 
+right contacts immediately — no scanning, no extra queries, no 
+governor limit risk.
+
+This approach keeps the code efficient, readable, and safe within 
+Salesforce governor limits.
